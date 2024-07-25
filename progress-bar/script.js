@@ -3,7 +3,7 @@ let button=document.getElementById('next');
 let prevButton = document.getElementById('prev');
 let progresStatus=document.getElementsByClassName('progress-status');
 let progressNo=document.querySelectorAll('.progress-no');
-let activeCircle = 1;
+let activeCircle = 0;
 let width=0;
 
 
@@ -19,23 +19,33 @@ prevButton.addEventListener('click',()=>{
     } 
 });
 
-const updateProgress=(circle)=>{
-    progressNo[circle-1].classList.toggle('circle-active');
+const updateProgress=(circle)=>{ 
+    progressNo[circle].classList.toggle('circle-active');
     activeCircle=circle;
-    activeCircle==progressNo.length?button.disabled=true:button.disable=false;
-    width=(activeCircle-1)*20;
-    progresStatus[0].style.width=`${width}%`;  
-    prevButton.disabled=false; 
+    updateButton(); 
+   
+  updateBar();
 }
 
 const downgradeProgress=(circle)=>{
-    button.disabled=false;
-    progressNo[circle-1].classList.toggle('circle-active');
+    progressNo[circle].classList.toggle('circle-active');
     activeCircle=circle-1;
-    activeCircle<=1?prevButton.disabled=true:prevButton.disable=false;
-    width=(activeCircle-1)*20;
-    progresStatus[0].style.width=`${width}%`; 
+    updateButton();
+    updateBar();
+   
+    
   
+}
+
+const updateButton=()=>{
+    button.disabled=(activeCircle==progressNo.length-1);
+    prevButton.disabled=(activeCircle<=0); 
+}
+
+const updateBar=()=>{
+    width=(activeCircle)*20;
+    progresStatus[0].style.width=`${width}%`; 
+
 }
 
 
